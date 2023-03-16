@@ -1,0 +1,7 @@
+site_name: My Docs
+repo_url: https://github.com/isaiaspereira307/Project-Django
+repo_name: isaiaspereira307/Project-Django
+edit_uri: tree/main/docs
+
+theme:
+  name: material

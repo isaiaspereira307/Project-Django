@@ -7,6 +7,15 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
+django = "^4.1.7"
+django-filter = "^22.1"
+django-phonenumbers = "^1.0.1"
+django-phonenumber-field = "^7.0.2"
+psycopg2-binary = "^2.9.5"
+python-decouple = "^3.8"
+django-bootstrap-form = "^3.4"
+pymysql = "^1.0.2"
+sqlparse = "^0.4.3"
 
 
 [tool.poetry.group.dev.dependencies]

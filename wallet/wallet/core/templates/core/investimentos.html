@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h1>Investimentos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Investimento</th>
+                <th>Valor Investido</th>
+                <th>Rentabilidade</th>
+                <th>Rendimento Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for investimento in investimentos %}
+                <tr>
+                    <td>{{ investimento.nome }}</td>
+                    <td>R$ {{ investimento.valor_investido }}</td>
+                    <td>{{ investimento.rentabilidade }}%</td>
+                    <td>R$ {{ investimento.rendimento_total }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">Total de Rendimentos</td>
+                <td>R$ {{ total_rendimentos }}</td>
+            </tr>
+        </tfoot>
+    </table>
+{% endblock %}

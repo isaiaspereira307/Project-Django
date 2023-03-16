@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Meu Site{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'carteira' %}">Carteira</a></li>
+                <li><a href="{% url 'investimentos' %}">Investimentos</a></li>
+                <li><a href="{% url 'bitcoin' %}">Bitcoin</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        &copy; 2023 - Meu Site
+    </footer>
+</body>
+</html>
