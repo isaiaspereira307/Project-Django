@@ -2,11 +2,12 @@ from django.shortcuts import render
 from django.db.models import Sum
 from .models import Transacao, Investimento, Bitcoin
 import requests
+from datetime import date
 
 
 def carteira(request):
-    receita = Transacao.objects.filter(tipo='receita').aggregate(Sum('valor'))['valor__sum'] or 0
-    despesa = Transacao.objects.filter(tipo='despesa').aggregate(Sum('valor'))['valor__sum'] or 0
+    receita = Transacao.objects.filter(tipo__exact='receita').aggregate(Sum('valor'))['valor__sum'] or 0
+    despesa = Transacao.objects.filter(tipo__exact='despesa').aggregate(Sum('valor'))['valor__sum'] or 0
     saldo = receita - despesa
     context = {'receita': receita, 'despesa': despesa, 'saldo': saldo}
     return render(request, 'core/carteira.html', context)
@@ -27,13 +28,20 @@ def investimentos(request):
 
 def bitcoin(request):
     cotacao = requests.get('https://api.coindesk.com/v1/bpi/currentprice/BRL.json').json()['bpi']['USD']['rate_float']
+    cotacao_real = requests.get('https://api.coindesk.com/v1/bpi/currentprice/BRL.json').json()['bpi']['BRL']['rate_float']
     bitcoins = Bitcoin.objects.all()
     total_bitcoins = 0
     total_dolares = 0
+    total_reais = 0
     for bitcoin in bitcoins:
-        total_bitcoins += bitcoin.quantidade
-        total_dolares += bitcoin.quantidade * bitcoin.valor_compra * cotacao
-    context = {'total_bitcoins': total_bitcoins, 'total_dolares': total_dolares}
+        total_bitcoins += float(bitcoin.quantidade)
+        total_dolares += float(bitcoin.quantidade) * cotacao
+        total_reais += float(bitcoin.quantidade) * cotacao_real
+    context = {
+        'total_bitcoins': total_bitcoins,
+        'total_dolares': total_dolares,
+        'total_reais': total_reais
+    }
     return render(request, 'core/bitcoin.html', context)
 
 

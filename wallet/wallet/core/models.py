@@ -27,13 +27,9 @@ class Transacao(models.Model):
     
 
 class Bitcoin(models.Model):
-    nome = models.CharField(max_length=100)
-    descricao = models.TextField()
     valor_compra = models.DecimalField(max_digits=10, decimal_places=2)
-    quantidade = models.DecimalField(max_digits=10, decimal_places=2)
+    quantidade = models.DecimalField(max_digits=10, decimal_places=8)
     data_compra = models.DateField()
 
-    def __str__(self):
-        return self.nome
 
 
