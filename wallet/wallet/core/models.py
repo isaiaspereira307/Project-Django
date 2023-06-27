@@ -1,29 +1,53 @@
 from django.db import models
+from django.db import models
+from django.contrib.auth.models import User
+
+class BankAccount(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
+    balance = models.DecimalField(max_digits=10, decimal_places=2)
 
 
-class Investimento(models.Model):
-    nome = models.CharField(max_length=100)
-    descricao = models.TextField()
-    valor_investido = models.DecimalField(max_digits=10, decimal_places=2)
+class Transaction(models.Model):
+    TYPE = [
+        ('receita', 'Receita'),
+        ('despesa', 'Despesa')
+    ]
+    bank_account = models.ForeignKey(BankAccount, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    description = models.CharField(max_length=20)
+    type = models.CharField(max_length=7, choices=TYPE)
+
+    def __str__(self):
+        return self.description
+
+
+class Loan(models.Model):
+    bank_account = models.ForeignKey(BankAccount, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    interest_rate = models.DecimalField(max_digits=5, decimal_places=2)
+    due_date = models.DateField()
+
+class Investment(models.Model):
+    bank_account = models.ForeignKey(BankAccount, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    name = models.CharField(max_length=100)
+
     rentabilidade = models.DecimalField(max_digits=5, decimal_places=2)
     data_investimento = models.DateField()
 
     def __str__(self):
-        return self.nome
+        return self.name
+
+class FixedExpense(models.Model):
+    bank_account = models.ForeignKey(BankAccount, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.CharField(max_length=200)
+
+
     
 
-class Transacao(models.Model):
-    TIPO_CHOICES = [
-        ('receita', 'Receita'),
-        ('despesa', 'Despesa')
-    ]
-    descricao = models.TextField()
-    valor = models.DecimalField(max_digits=10, decimal_places=2)
-    tipo = models.CharField(max_length=7, choices=TIPO_CHOICES)
-    data_transacao = models.DateField()
-
-    def __str__(self):
-        return self.descricao
     
 
 class Bitcoin(models.Model):
